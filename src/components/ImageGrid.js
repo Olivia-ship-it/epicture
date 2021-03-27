@@ -14,8 +14,8 @@ function Item({ item }) {
         <View style={styles.listItem}>
             <Image 
             source={{uri:item.link}}  
-            style={{width:275 , height:275, borderRadius:5 , resizeMode:"cover", flex:"1"}}
-                    />
+            style={{width:275 , height:275, borderRadius:5 , resizeMode:"cover", flex:"1", margin: "10px"}}
+            />
             <View style={{alignItems:"center", display:'flex' }}>
                 <Text style={{fontWeight:"bold"}}>{item.title}</Text>
                 <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
@@ -28,37 +28,46 @@ function Item({ item }) {
 export default class ImageGrid extends React.Component {
 
 
-    render(){
+    render() {
         return (
-        <View style={styles.container}>
-            <FlatList
-            style={{flex:1}}
-            data={pictures}
-            renderItem={({ item }) => <Item item={item}/>}
-            numColumns={1}
-            keyExtractor={item => item.id}
-            />
-        </View>
+            <View style={styles.container}>
+                <FlatList
+                    style={{ flex: 1 }}
+                    data={pictures}
+                    renderItem={({ item }) => <Item item={item} />}
+                    numColumns={1}
+                    keyExtractor={item => item.id}
+                />
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F7F7F7',
-    marginTop:60,
-  },
-  listItem:{
-    margin:5,
-    padding:5,
-    backgroundColor:"#FFF",
-    width:"80%",
-    flex:1,
-    alignSelf:"center",
-    borderRadius:5,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        marginTop: 0,
+    },
+    listItem: {
+        margin: 5,
+        padding: 5,
+        backgroundColor: "white",
+        width: "80%",
+        flex: 1,
+        alignSelf: "center",
+        borderRadius: 5,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+
+        elevation: 6,
+    }
 });
