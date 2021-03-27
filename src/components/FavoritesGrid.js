@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Dimensions, Text, View, FlatList, Image } from 'react-native';
 import imgur from '../api/imgur';
 import Heart from "react-animated-heart";
@@ -9,6 +9,8 @@ const { width } = Dimensions.get('screen');
 
 function Item({ item }) {
     const [isClick, setClick] = useState(false);
+    
+
 
     return (
         <View style={styles.listItem}>
@@ -25,22 +27,43 @@ function Item({ item }) {
     );
 }
 
-export default class ImageGrid extends React.Component {
+export default function FavoritesGrid() {
 
+    let [pictureData, setPictureData] = useState({});
 
-    render(){
-        return (
-        <View style={styles.container}>
-            <FlatList
-            style={{flex:1}}
-            data={pictures}
-            renderItem={({ item }) => <Item item={item}/>}
-            numColumns={1}
-            keyExtractor={item => item.id}
-            />
-        </View>
-        );
-    }
+    useEffect( async () => {
+        var axios = require('axios');
+        var qs = require('qs');
+        var data = qs.stringify({
+
+        });
+        var config = {
+        method: 'get',
+        url: 'https://api.imgur.com/3/gallery/random/random',
+        headers: { 
+            'Authorization': 'Bearer aa1faa822c8a6fd088f7ef75ef5b91125e6fb8d4', 
+            'Host': 'api.imgur.com',
+        }, 
+        data : data
+        };
+
+        pictureDataRequested = await axios(config);
+        console.log(pictureDataRequested)
+        setPictureData(pictureDataRequested)
+    } , []);
+
+    
+    return (
+    <View style={styles.container}>
+        <FlatList
+        style={{flex:1}}
+        data={pictures}
+        renderItem={({ item }) => <Item item={item}/>}
+        numColumns={1}
+        keyExtractor={item => item.id}
+        />
+    </View>
+    );
 }
 
 const styles = StyleSheet.create({

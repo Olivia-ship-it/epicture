@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as WebBrowser from 'expo-web-browser';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { makeRedirectUri, ResponseType, useAuthRequest } from 'expo-auth-session';
 import * as AuthSession from "expo-auth-session";
 
@@ -39,15 +39,39 @@ const Login = () => {
         }
     }, [response]);
   
-  return (      
-    <Button
+  return (
+    <View style={styles.buttonContainer}>
+    <TouchableOpacity
       disabled={!request}
-      title="Authenticate with Imgur"
       onPress={() => {
           login();
       }}
-    />
+      style={styles.button}>
+      <Text style={styles.buttonText}> {'Authenticate with Imgur'.toUpperCase()}</Text>
+    </TouchableOpacity>    
+    </View>  
   );
 };
+
+const styles = StyleSheet.create({
+  screenContainer: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 40,
+  },
+  button: {
+    backgroundColor: "#1E8CA6",
+    padding: 8,
+    borderRadius: 10
+  },
+  buttonText: {
+      color: "white",
+      textAlign: 'center', 
+      fontWeight: 'bold',
+      fontSize: 14,
+      marginTop: 0,
+      padding: 8,
+  }
+});
 
 export default Login;

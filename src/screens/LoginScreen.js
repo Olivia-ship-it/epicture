@@ -20,7 +20,7 @@ const LoginScreen = () => {
             </Text>
               <Login />
               <Card.Divider/>
-            <Text>If you do not have an Imgur account yet, register <Text style={{color: 'blue'}}
+              <Text>If you do not have an Imgur account yet, register <Text style={{color: 'blue'}}
               onPress={() => Linking.openURL('https://imgur.com/register?redirect=https%3A%2F%2Fimgur.com%2F')}>
               here
             </Text>.
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      bottom: 130, 
+      bottom: 120, 
     },
     textStyle: {
       justifyContent: 'center',
