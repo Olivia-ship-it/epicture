@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, Button } from 'react-native';
-import { Card, ListItem, Icon } from 'react-native-elements'
+import { StyleSheet, View, Image, Button, ImageBackground, Text } from 'react-native';
+import { ListItem, Icon, Card  } from 'react-native-elements'
 import Login from '../components/Login';
+
+import image from '../../assets/halfbackground.png';
 
 const LoginScreen = () => {
     
@@ -9,17 +11,17 @@ const LoginScreen = () => {
     
     return (
     <View style={styles.container}>
-        <Card>          
-          <Card.Image source={require('../../assets/Imgur.png')}>
-          </Card.Image>
-            <Text style={{marginBottom: 10}}>
+    <ImageBackground source={image} style={styles.image}>
+        <Card style={{ borderRadius: 8 }}>          
+            <Text style={styles.textStyle}>
             In order to take full advantage of our app, you first need to create an account on Imgur Platform.
             </Text>
+              <Login />
+              <Card.Divider/>
             <Text>If you already have an Imgur account, login here.
             </Text>
-            <Card.Divider/>
-              <Login />
         </Card>
+        </ImageBackground>
     </View>
   );
 }
@@ -29,21 +31,17 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
        },
-    buttonContainer: {
-      margin: 20,
-      justifyContent: 'center'
-    },
-    buttonStyle: {
-      marginTop: 20,
-    },
-    alternativeLayoutButtonContainer: {
-      margin: 20,
-      flexDirection: 'row',
-      justifyContent: 'space-between'
-    }, 
     textStyle: {
       justifyContent: 'center',
-    }
+      fontSize: 15,
+      margin: 10,
+    },
+    image: {
+      flex: 1,
+      width: 'auto',
+      height: '60%',
+      justifyContent: "center"
+    },
 });
 
 export default LoginScreen;

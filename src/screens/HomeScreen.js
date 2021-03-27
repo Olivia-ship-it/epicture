@@ -17,7 +17,7 @@ export default class Home extends React.Component {
         return (
               <View style={{ flex: 1 }}>
                 <Search />
-                <Filter />
+                {/* <Filter /> */}
                 <ImageGrid />
               </View>
 
