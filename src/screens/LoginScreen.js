@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Button, ImageBackground, Text } from 'react-native';
+import { StyleSheet, View, Image, Button, ImageBackground, Text, Linking } from 'react-native';
 import { ListItem, Icon, Card  } from 'react-native-elements'
 import Login from '../components/Login';
 
@@ -12,16 +12,22 @@ const LoginScreen = () => {
     return (
     <View style={styles.container}>
     <ImageBackground source={image} style={styles.image}>
-        <Card style={{ borderRadius: 8 }}>          
+      <View style={styles.containerMain}>
+        <Card style={{ borderRadius: 20 }}>
+        <Card.Title style={styles.titleStyle}>Login with Imgur</Card.Title>          
             <Text style={styles.textStyle}>
-            In order to take full advantage of our app, you first need to create an account on Imgur Platform.
+            In order to take full advantage of our app, you need to login with your Imgur account.
             </Text>
               <Login />
               <Card.Divider/>
-            <Text>If you already have an Imgur account, login here.
+            <Text>If you do not have an Imgur account yet, register <Text style={{color: 'blue'}}
+              onPress={() => Linking.openURL('https://imgur.com/register?redirect=https%3A%2F%2Fimgur.com%2F')}>
+              here
+            </Text>.
             </Text>
         </Card>
-        </ImageBackground>
+        </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -31,15 +37,25 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
        },
+    containerMain: {
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      bottom: 130, 
+    },
     textStyle: {
       justifyContent: 'center',
       fontSize: 15,
       margin: 10,
     },
+    titleStyle: {
+      fontSize: 20
+    },
     image: {
       flex: 1,
       width: 'auto',
-      height: '60%',
+      height: '50%',
       justifyContent: "center"
     },
 });
