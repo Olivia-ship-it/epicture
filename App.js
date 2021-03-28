@@ -16,7 +16,7 @@ function MyTabs() {
       initialRouteName="Home"
       activeColor="#F2F2F2"
       inactiveColor="#A6371E"
-      barStyle={{ backgroundColor: '#F26444', paddingBottom: 15}}
+      barStyle={{ backgroundColor: '#F26444', paddingBottom: 8}}
       tabBarOptions={{ showLabel: false }}
       labeled={false}
     >
