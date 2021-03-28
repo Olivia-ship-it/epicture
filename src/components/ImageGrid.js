@@ -16,12 +16,14 @@ function Item({ item }) {
             source={{uri:item.link}}  
             style={{width:275 , height:275, borderRadius:5 , resizeMode:"cover", flex:"1", margin: "10px"}}
             />
-            <View style={{alignItems:"center", display:'flex' }}>
+            <View style={styles.row}>
                 <Text style={{fontWeight:"bold"}}>{item.title}</Text>
-                <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
             </View>
-            
+            <View style={styles.heart}>
+            <Heart  isClick={isClick} onClick={() => setClick(!isClick)} />
+            </View>
         </View>
+        
     );
 }
 
@@ -69,5 +71,16 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
 
         elevation: 6,
+    }, 
+    row: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems:"center"
+    },
+    heart: {
+        position: 'absolute',
+        alignItems: 'flex-end',
+        bottom: -39,
+        right: -44,
     }
 });
