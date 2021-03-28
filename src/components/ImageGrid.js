@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Dimensions, Text, View, FlatList, Image } from 'react-native';
 import imgur from '../api/imgur';
 import Heart from "react-animated-heart";
@@ -7,25 +7,36 @@ import Heart from "react-animated-heart";
 import pictures from '../constants/RandomImages';
 import Favorite from '../constants/FavoritesImages';
 const { width } = Dimensions.get('screen');
-
+let favs = [];
 
 function Item({ item }) {
     const [isClick, setClick] = useState(false);
-    let favs = [];
-    var itemId = item.id
+    
+    React.useEffect(() => {
+        var favorites = JSON.parse(localStorage.getItem('favorites'));
+        if (favorites.some( favorite => favorite['id'] === item.id)){
+            setClick(true);
+        } 
+    });
 
     function setFavorite() {
         setClick(!isClick);
+        var itemId = item.id;
+        
         if (!isClick) {
             console.log("added a favorite");
-            const fav = new Favorite(item.id, item.title, item.link);
-            favs.push(itemId);
-            console.dir(favs);        
+            let fav = new Favorite(item.id, item.title, item.link);
+            favs.push(fav);
+            console.log(favs); 
         }
 
         if (isClick) {
-            
+            var itemToBeRemoved = item
+            favs.splice(favs.findIndex(a => a.id === itemToBeRemoved.id) , 1)
+            console.log(favs)
         }
+
+        localStorage.setItem('favorites', JSON.stringify(favs));
     }
 
     return (
@@ -38,7 +49,7 @@ function Item({ item }) {
                 <Text style={{fontWeight:"bold"}}>{item.title}</Text>
             </View>
             <View style={styles.heart}>
-            <Heart  isClick={isClick} onClick={setFavorite} />
+            <Heart isClick={isClick} onClick={setFavorite} />
             </View>
         </View>
         

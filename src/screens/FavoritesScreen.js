@@ -4,9 +4,9 @@ import imgur from '../api/imgur';
 import Heart from "react-animated-heart";
 
 
-import favorites from '../constants/FavoritesImages';
+// import favorites from '../constants/FavoritesImages';
 const { width } = Dimensions.get('screen');
-
+var favorites = JSON.parse(localStorage.getItem('favorites'));
 
 function Item({ item }) {
 
