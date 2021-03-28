@@ -11,9 +11,10 @@ let favs = [];
 
 function Item({ item }) {
     const [isClick, setClick] = useState(false);
-    
+    let favorites = [];
+
     React.useEffect(() => {
-        var favorites = JSON.parse(localStorage.getItem('favorites'));
+        favorites = JSON.parse(localStorage.getItem('favorites'));
         if (favorites.some( favorite => favorite['id'] === item.id)){
             setClick(true);
         } 
@@ -26,17 +27,16 @@ function Item({ item }) {
         if (!isClick) {
             console.log("added a favorite");
             let fav = new Favorite(item.id, item.title, item.link);
-            favs.push(fav);
-            console.log(favs); 
+            favorites.push(fav);
+            localStorage.setItem('favorites', JSON.stringify(favorites))
         }
 
         if (isClick) {
             var itemToBeRemoved = item
-            favs.splice(favs.findIndex(a => a.id === itemToBeRemoved.id) , 1)
-            console.log(favs)
+            favorites.splice(favorites.findIndex(a => a.id === itemToBeRemoved.id) , 1)
+            localStorage.setItem('favorites', JSON.stringify(favorites))
         }
 
-        localStorage.setItem('favorites', JSON.stringify(favs));
     }
 
     return (
