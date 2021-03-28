@@ -1,15 +1,86 @@
-import React, { Component } from 'react';
-import { Button, View, Text } from 'react-native';
-import FavoritesGrid from '../components/FavoritesGrid';
+import React, { useState } from 'react';
+import { StyleSheet, Dimensions, Text, View, FlatList, Image } from 'react-native';
+import imgur from '../api/imgur';
+import Heart from "react-animated-heart";
 
-class Favorites extends Component {
-  render() {
+
+import favorites from '../constants/FavoritesImages';
+const { width } = Dimensions.get('screen');
+
+
+function Item({ item }) {
+
     return (
-      <View style={{ flex: 1 }}>
-        <FavoritesGrid />
-      </View>
+        <View style={styles.listItem}>
+            <Image 
+            source={{uri:item.link}}  
+            style={{width:275 , height:275, borderRadius:5 , resizeMode:"cover", flex:"1", margin: "10px"}}
+            />
+            <View style={styles.row}>
+                <Text style={{fontWeight:"bold"}}>{item.title}</Text>
+            </View>
+            <View style={styles.heart}>
+            
+            </View>
+        </View>
+        
     );
-  }
 }
 
-export default Favorites;
+export default class FavoritesScreen extends React.Component {
+
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <FlatList
+                    style={{ flex: 1 }}
+                    data={favorites}
+                    renderItem={({ item }) => <Item item={item} />}
+                    numColumns={1}
+                    keyExtractor={item => item.id}
+                />
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: 0,
+    },
+    listItem: {
+        margin: 5,
+        padding: 5,
+        backgroundColor: "white",
+        width: "80%",
+        flex: 1,
+        alignSelf: "center",
+        borderRadius: 5,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+
+        elevation: 6,
+    }, 
+    row: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems:"center"
+    },
+    heart: {
+        position: 'absolute',
+        alignItems: 'flex-end',
+        bottom: -39,
+        right: -44,
+    }
+});

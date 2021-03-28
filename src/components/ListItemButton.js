@@ -16,14 +16,14 @@ const Touchable = Platform.select({
   default: TouchableOpacity
 });
 
-const ListItemButton = ({ onPress, text, icon }) => {
+const ListItemButton = ({ onPress, text, icon, active }) => {
   const containerStyle = [styles.container];
   const textStyle = [styles.text];
 
-//   if (active) {
-//     containerStyle.push(styles.containerActive);
-//     textStyle.push(styles.textActive);
-//   }
+    if (active) {
+        containerStyle.push(styles.containerActive);
+        textStyle.push(styles.textActive);
+    }
 
   return (
     <Touchable

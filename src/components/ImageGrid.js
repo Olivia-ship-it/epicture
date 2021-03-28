@@ -5,10 +5,28 @@ import Heart from "react-animated-heart";
 
 
 import pictures from '../constants/RandomImages';
+import Favorite from '../constants/FavoritesImages';
 const { width } = Dimensions.get('screen');
+
 
 function Item({ item }) {
     const [isClick, setClick] = useState(false);
+    let favs = [];
+    var itemId = item.id
+
+    function setFavorite() {
+        setClick(!isClick);
+        if (!isClick) {
+            console.log("added a favorite");
+            const fav = new Favorite(item.id, item.title, item.link);
+            favs.push(itemId);
+            console.dir(favs);        
+        }
+
+        if (isClick) {
+            
+        }
+    }
 
     return (
         <View style={styles.listItem}>
@@ -20,7 +38,7 @@ function Item({ item }) {
                 <Text style={{fontWeight:"bold"}}>{item.title}</Text>
             </View>
             <View style={styles.heart}>
-            <Heart  isClick={isClick} onClick={() => setClick(!isClick)} />
+            <Heart  isClick={isClick} onClick={setFavorite} />
             </View>
         </View>
         

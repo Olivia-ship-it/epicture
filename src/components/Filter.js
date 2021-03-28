@@ -16,9 +16,11 @@ const FILTERS_ICON_WIDTH = 44;
 const FILTERS_BUTTON_WIDTH = 100;
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
-const Filter = () => {
+const Filter = (activeFiltersMap) => {
 
   const animatedWidth = new Animated.Value(FILTERS_BUTTON_WIDTH);
+
+  const scrollViewPaddingLeft = FILTERS_BUTTON_WIDTH - 18;
 
   const scrollViewRef = React.createRef();
 
@@ -76,13 +78,13 @@ const Filter = () => {
        {filters.map(filter => (
         <ListItemButton
           key={filter.name}
-          // active={activeFiltersMap[filter.name]}
+          active={activeFiltersMap[filter.name]}
           text={filter.label}
-          // icon={
-          //   filter.type === "MULTI_CHOICE" && (
-          //     <DropDownIcon active={!!activeFiltersMap[filter.name]} />
-          //   )
-          // }
+          icon={
+            filter.type === "MULTI_CHOICE" && (
+              <DropDownIcon active={!!activeFiltersMap[filter.name]} />
+            )
+          }
         />
       ))}
       </ScrollView>
