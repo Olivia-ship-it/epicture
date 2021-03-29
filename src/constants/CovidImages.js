@@ -1,22 +1,4 @@
 export default [
-    {
-            "name": "covid19",
-            "display_name": "covid19",
-            "followers": 9626,
-            "total_items": 23620,
-            "following": false,
-            "is_whitelisted": true,
-            "background_hash": "GEpMqov",
-            "thumbnail_hash": null,
-            "accent": "1E5F43",
-            "background_is_animated": false,
-            "thumbnail_is_animated": false,
-            "is_promoted": false,
-            "description": "",
-            "logo_hash": null,
-            "logo_destination_url": null,
-            "description_annotations": {},
-            "items": [
                 {
                     "id": "4vtKAJs",
                     "title": "COVID Symptoms?",
@@ -9864,6 +9846,4 @@ export default [
                         "showsAds": true
                     }
                 }
-            ]
-    }
 ]

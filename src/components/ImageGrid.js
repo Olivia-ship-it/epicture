@@ -5,24 +5,28 @@ import Heart from "react-animated-heart";
 
 
 import pictures from '../constants/RandomImages';
+import covid from '../constants/CovidImages';
+import surf from '../constants/SurfImages';
+import puppies from '../constants/PuppiesImages';
+import memes from '../constants/MemesImages';
+
 import Favorite from '../constants/FavoritesImages';
 const { width } = Dimensions.get('screen');
-let favs = [];
 
-function Item({ item }) {
+function Item({ data, item }) {
     const [isClick, setClick] = useState(false);
     let favorites = [];
+    let itemSource;
 
     React.useEffect(() => {
         favorites = JSON.parse(localStorage.getItem('favorites'));
-        if (favorites.some( favorite => favorite['id'] === item.id)){
+        if (favorites != null && favorites.some( favorite => favorite['id'] === item.id)){
             setClick(true);
         } 
     });
 
     function setFavorite() {
         setClick(!isClick);
-        var itemId = item.id;
         
         if (!isClick) {
             console.log("added a favorite");
@@ -36,15 +40,29 @@ function Item({ item }) {
             favorites.splice(favorites.findIndex(a => a.id === itemToBeRemoved.id) , 1)
             localStorage.setItem('favorites', JSON.stringify(favorites))
         }
-
     }
+
+    const renderImage = () => {
+        if ( data === pictures ) {
+          return (
+            <Image 
+            source={{ uri: item.link }}
+            style={{width:275 , height:275, borderRadius:5 , resizeMode:"cover", flex:"1", margin: "10px"}}
+            />
+        )
+        } else {
+            return (
+                <Image 
+                source={{ uri: item.images[0].link }}
+                style={{width:275 , height:275, borderRadius:5 , resizeMode:"cover", flex:"1", margin: "10px"}}
+                />
+            )
+        }
+      }
 
     return (
         <View style={styles.listItem}>
-            <Image 
-            source={{uri:item.link}}  
-            style={{width:275 , height:275, borderRadius:5 , resizeMode:"cover", flex:"1", margin: "10px"}}
-            />
+            {renderImage()}
             <View style={styles.row}>
                 <Text style={{fontWeight:"bold"}}>{item.title}</Text>
             </View>
@@ -56,22 +74,21 @@ function Item({ item }) {
     );
 }
 
-export default class ImageGrid extends React.Component {
+export default function ImageGrid(props) {
 
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <FlatList
-                    style={{ flex: 1 }}
-                    data={pictures}
-                    renderItem={({ item }) => <Item item={item} />}
-                    numColumns={1}
-                    keyExtractor={item => item.id}
-                />
-            </View>
-        );
-    }
+
+    return (
+        <View style={styles.container}>
+            <FlatList
+                style={{ flex: 1 }}
+                data={props.pictures}
+                renderItem={({ item }) => <Item data={props.pictures} item={item} />}
+                numColumns={1}
+                keyExtractor={item => item.id}
+            />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

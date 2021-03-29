@@ -10,6 +10,34 @@ var favorites = JSON.parse(localStorage.getItem('favorites'));
 
 function Item({ item }) {
 
+    const [isClick, setClick] = useState(false);
+    let favorites = [];
+
+    React.useEffect(() => {
+        favorites = JSON.parse(localStorage.getItem('favorites'));
+        if (favorites != null && favorites.some( favorite => favorite['id'] === item.id)){
+            setClick(true);
+        }
+    });
+
+    function setFavorite() {
+        setClick(!isClick);
+        
+        if (!isClick) {
+            
+            console.log("added a favorite");
+            let fav = new Favorite(item.id, item.title, item.link);
+            favorites.push(fav);
+            localStorage.setItem('favorites', JSON.stringify(favorites))
+        }
+
+        if (isClick) {
+            var itemToBeRemoved = item
+            favorites.splice(favorites.findIndex(a => a.id === itemToBeRemoved.id) , 1)
+            localStorage.setItem('favorites', JSON.stringify(favorites))
+        }
+    }
+
     return (
         <View style={styles.listItem}>
             <Image 
@@ -20,7 +48,7 @@ function Item({ item }) {
                 <Text style={{fontWeight:"bold"}}>{item.title}</Text>
             </View>
             <View style={styles.heart}>
-            
+            <Heart isClick={isClick} onClick={setFavorite} />
             </View>
         </View>
         

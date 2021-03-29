@@ -4,12 +4,12 @@ export default [
         "label": "PUPPIES",
     },
     {
-        "name": "FUNNY",
-        "label": "FUNNY",
+        "name": "SURF",
+        "label": "SURF",
     },
     {
-        "name": "MEMES",
-        "label": "MEMES",
+        "name": "IRELAND",
+        "label": "IRELAND",
     },
     {
         "name": "COVID",

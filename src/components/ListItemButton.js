@@ -16,19 +16,21 @@ const Touchable = Platform.select({
   default: TouchableOpacity
 });
 
-const ListItemButton = ({ onPress, text, icon, active }) => {
+const ListItemButton = ({ text, icon, active, setParentFilter }) => {
   const containerStyle = [styles.container];
   const textStyle = [styles.text];
 
-    if (active) {
-        containerStyle.push(styles.containerActive);
-        textStyle.push(styles.textActive);
-    }
+  if (active) {
+      containerStyle.push(styles.containerActive);
+      textStyle.push(styles.textActive);
+  }
+  
+
 
   return (
     <Touchable
       style={styles.button}
-      onPress={() => { alert("hey") }}
+      onPress={() => { setParentFilter(text) }}
     >
       <View style={containerStyle}>
       {icon && icon}

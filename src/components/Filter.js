@@ -1,23 +1,63 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   Animated,
   Dimensions,
   StyleSheet,
   View,
   ScrollView,
-  Button
+  Button,
+  TouchableOpacity,
+  Platform,
+  Text,
 } from "react-native";
 
 import filters from '../constants/filters';
 import ListItemButton from './ListItemButton';
 import StickyItemButton from './StickyItemButton';
 
+import pictures from '../constants/RandomImages';
+import covid from '../constants/CovidImages';
+import puppies from '../constants/PuppiesImages';
+import ireland from '../constants/MemesImages';
+import surf from '../constants/SurfImages';
+
 const FILTERS_ICON_WIDTH = 44;
 const FILTERS_BUTTON_WIDTH = 100;
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
-const Filter = (activeFiltersMap) => {
+const Filter = (props) => {
 
+  let [activeFilter, setActiveFilter] = useState("");
+  let [activeImages, setActiveImages] = useState(pictures);
+
+  const setParentActiveFilter = (filter) => {
+    setActiveFilter(filter);
+    console.log(filter);
+  };
+
+  useEffect( () => {
+    switch(activeFilter) {
+      case "PUPPIES": 
+        setActiveImages(puppies);
+        props.setHomeScreenData(puppies);
+        break;
+      case "COVID":
+        setActiveImages(covid);
+        props.setHomeScreenData(covid);
+        break;
+      case "IRELAND":
+        setActiveImages(ireland);
+        props.setHomeScreenData(ireland);
+        break;
+      case "SURF":
+        setActiveImages(surf);
+        props.setHomeScreenData(surf);
+        break;
+    }
+    console.log("GOT HERE", activeFilter);
+  }
+  , [activeFilter]);
+  
   const animatedWidth = new Animated.Value(FILTERS_BUTTON_WIDTH);
 
   const scrollViewPaddingLeft = FILTERS_BUTTON_WIDTH - 18;
@@ -53,8 +93,10 @@ const Filter = (activeFiltersMap) => {
     }
   };
 
+
   return (
     <View style={styles.container}>
+      
       <View style={styles.stickyItem}>
           <Animated.View
             style={[
@@ -62,9 +104,21 @@ const Filter = (activeFiltersMap) => {
               { width: animatedWidth, maxWidth: FILTERS_BUTTON_WIDTH }
             ]}
           >
-        <StickyItemButton />
+
+        <TouchableOpacity
+          style={styles.button}
+        >
+          <View style={styles.containerStyle}>
+          <View style={styles.icon}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M6.1 17.25a3 3 0 0 1 5.8 0h8.85a.75.75 0 1 1 0 1.5h-8.84a3 3 0 0 1-5.82 0H3.25a.75.75 0 1 1 0-1.5h2.84zm6-6a3 3 0 0 1 5.8 0h2.85a.75.75 0 1 1 0 1.5h-2.84a3 3 0 0 1-5.82 0H3.25a.75.75 0 1 1 0-1.5h8.84zm-6-6a3 3 0 0 1 5.8 0h8.85a.75.75 0 1 1 0 1.5h-8.84a3 3 0 0 1-5.82 0H3.25a.75.75 0 0 1 0-1.5h2.84zM9 7.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm6 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-6 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg>
+          </View>
+          <Text style={{fontFamily: 'Calibri', color: 'white', fontSize: 18, fontWeight: 'bold', marginLeft:8 }}>Filters</Text> 
+          </View>
+          
+        </TouchableOpacity>
         </Animated.View>
       </View>
+      
       <ScrollView
         horizontal
         style={styles.scrollView}
@@ -78,13 +132,8 @@ const Filter = (activeFiltersMap) => {
        {filters.map(filter => (
         <ListItemButton
           key={filter.name}
-          active={activeFiltersMap[filter.name]}
           text={filter.label}
-          icon={
-            filter.type === "MULTI_CHOICE" && (
-              <DropDownIcon active={!!activeFiltersMap[filter.name]} />
-            )
-          }
+          setParentFilter={setParentActiveFilter}
         />
       ))}
       </ScrollView>
@@ -116,6 +165,25 @@ const styles = StyleSheet.create({
     paddingLeft: 100,
     paddingRight: 10,
     paddingBottom: 13
+  },
+  icon: {
+    marginLeft: -6,
+    marginRight: 5
+  },
+  button: {
+    marginLeft: 8,
+    borderRadius: 8,
+    backgroundColor: "#F4A18E"
+  },
+  containerStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 32,
+    paddingHorizontal: 12
+  },
+  textStyle: {
+    fontSize: 13,
+    fontWeight: 'bold',
   },
 });
   
