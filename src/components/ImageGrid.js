@@ -49,7 +49,7 @@ function Item({ data, item }) {
         />
       )
     } else {
-      return (console.log(item),
+      return (
           <Image
           source={{ uri: item.images[0].link }}
           style={{ width: 275, height: 275, borderRadius: 5, resizeMode: "cover", flex: "1", margin: "10px" }}
