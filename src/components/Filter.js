@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Animated,
   Dimensions,
@@ -14,7 +14,6 @@ import {
 import filters from '../constants/filters';
 import ListItemButton from './ListItemButton';
 import StickyItemButton from './StickyItemButton';
-
 import pictures from '../constants/RandomImages';
 import covid from '../constants/CovidImages';
 import puppies from '../constants/PuppiesImages';
@@ -35,9 +34,9 @@ const Filter = (props) => {
     console.log(filter);
   };
 
-  useEffect( () => {
-    switch(activeFilter) {
-      case "PUPPIES": 
+  useEffect(() => {
+    switch (activeFilter) {
+      case "PUPPIES":
         setActiveImages(puppies);
         props.setHomeScreenData(puppies);
         break;
@@ -55,9 +54,8 @@ const Filter = (props) => {
         break;
     }
     console.log("GOT HERE", activeFilter);
-  }
-  , [activeFilter]);
-  
+  }, [activeFilter]);
+
   const animatedWidth = new Animated.Value(FILTERS_BUTTON_WIDTH);
 
   const scrollViewPaddingLeft = FILTERS_BUTTON_WIDTH - 18;
@@ -67,12 +65,12 @@ const Filter = (props) => {
   const onFiltersScroll = (event) => {
     const eventX = event.nativeEvent.contentOffset.x;
     const direction = eventX > 0 ? 1 : -1;
-    
+
     const offsetX = Math.min(
       Math.abs(eventX),
       FILTERS_BUTTON_WIDTH - FILTERS_ICON_WIDTH
     );
-    
+
     animatedWidth.setValue(FILTERS_BUTTON_WIDTH - offsetX * direction);
   };
 
@@ -96,29 +94,29 @@ const Filter = (props) => {
 
   return (
     <View style={styles.container}>
-      
-      <View style={styles.stickyItem}>
-          <Animated.View
-            style={[
-              styles.stickyItemMask,
-              { width: animatedWidth, maxWidth: FILTERS_BUTTON_WIDTH }
-            ]}
-          >
 
-        <TouchableOpacity
-          style={styles.button}
+      <View style={styles.stickyItem}>
+        <Animated.View
+          style={[
+            styles.stickyItemMask,
+            { width: animatedWidth, maxWidth: FILTERS_BUTTON_WIDTH }
+          ]}
         >
-          <View style={styles.containerStyle}>
-          <View style={styles.icon}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M6.1 17.25a3 3 0 0 1 5.8 0h8.85a.75.75 0 1 1 0 1.5h-8.84a3 3 0 0 1-5.82 0H3.25a.75.75 0 1 1 0-1.5h2.84zm6-6a3 3 0 0 1 5.8 0h2.85a.75.75 0 1 1 0 1.5h-2.84a3 3 0 0 1-5.82 0H3.25a.75.75 0 1 1 0-1.5h8.84zm-6-6a3 3 0 0 1 5.8 0h8.85a.75.75 0 1 1 0 1.5h-8.84a3 3 0 0 1-5.82 0H3.25a.75.75 0 0 1 0-1.5h2.84zM9 7.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm6 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-6 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg>
-          </View>
-          <Text style={{fontFamily: 'Calibri', color: 'white', fontSize: 18, fontWeight: 'bold', marginLeft:8 }}>Filters</Text> 
-          </View>
-          
-        </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+          >
+            <View style={styles.containerStyle}>
+              <View style={styles.icon}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M6.1 17.25a3 3 0 0 1 5.8 0h8.85a.75.75 0 1 1 0 1.5h-8.84a3 3 0 0 1-5.82 0H3.25a.75.75 0 1 1 0-1.5h2.84zm6-6a3 3 0 0 1 5.8 0h2.85a.75.75 0 1 1 0 1.5h-2.84a3 3 0 0 1-5.82 0H3.25a.75.75 0 1 1 0-1.5h8.84zm-6-6a3 3 0 0 1 5.8 0h8.85a.75.75 0 1 1 0 1.5h-8.84a3 3 0 0 1-5.82 0H3.25a.75.75 0 0 1 0-1.5h2.84zM9 7.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm6 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-6 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg>
+              </View>
+              <Text style={{ fontFamily: 'Calibri', color: 'white', fontSize: 18, fontWeight: 'bold', marginLeft: 8 }}>Filters</Text>
+            </View>
+
+          </TouchableOpacity>
         </Animated.View>
       </View>
-      
+
       <ScrollView
         horizontal
         style={styles.scrollView}
@@ -129,17 +127,56 @@ const Filter = (props) => {
         scrollEventThrottle={16}
         ref={scrollViewRef}
       >
-       {filters.map(filter => (
-        <ListItemButton
-          key={filter.name}
-          text={filter.label}
-          setParentFilter={setParentActiveFilter}
-        />
-      ))}
+        {filters.map(filter => (
+          <ListItemButton
+            key={filter.name}
+            text={filter.label}
+            setParentFilter={setParentActiveFilter}
+          />
+        ))}
       </ScrollView>
     </View>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -186,5 +223,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-  
+
 export default Filter;
