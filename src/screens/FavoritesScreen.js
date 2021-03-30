@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RefreshControl, StyleSheet, Dimensions, Text, View, FlatList, Image } from 'react-native';
 import imgur from '../api/imgur';
 import Heart from "react-animated-heart";
-
+import NoPictures from '../components/NoPictures';
 
 // import favorites from '../constants/FavoritesImages';
 const { width } = Dimensions.get('screen');
@@ -18,11 +18,13 @@ function Item({ item }) {
   const [isClick, setClick] = useState(false);
   let favorites = [];
 
-  React.useEffect(() => {
+  useEffect(() => {
     favorites = JSON.parse(localStorage.getItem('favorites'));
+    console.log("favorites")
     if (favorites != null && favorites.some(favorite => favorite['id'] === item.id)) {
       setClick(true);
     }
+  
   });
 
   function setFavorite() {
@@ -64,7 +66,7 @@ export default class FavoritesScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.item ?
+        {(favorites != "") ?
           <FlatList
             style={{ flex: 1 }}
             data={favorites}
