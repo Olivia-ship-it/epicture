@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Dimensions, Text, View, FlatList, Image } from 'react-native';
+import { RefreshControl, StyleSheet, Dimensions, Text, View, FlatList, Image } from 'react-native';
 import imgur from '../api/imgur';
 import Heart from "react-animated-heart";
 
@@ -7,6 +7,11 @@ import Heart from "react-animated-heart";
 // import favorites from '../constants/FavoritesImages';
 const { width } = Dimensions.get('screen');
 var favorites = JSON.parse(localStorage.getItem('favorites'));
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
 
 function Item({ item }) {
 
@@ -78,7 +83,7 @@ export default class FavoritesScreen extends React.Component {
                 style={{ width: 275, height: 275, borderRadius: 5, resizeMode: "cover", margin: "10px" }}
               />
             </View>
-          </ View>
+          </View>
         }
       </View>
     )
