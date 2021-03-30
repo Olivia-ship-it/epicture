@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RefreshControl, StyleSheet, Dimensions, Text, View, FlatList, Image } from 'react-native';
 import imgur from '../api/imgur';
 import Heart from "react-animated-heart";
@@ -18,14 +18,13 @@ function Item({ item }) {
   const [isClick, setClick] = useState(false);
   let favorites = [];
 
-  React.useEffect(() => {
+  useEffect(() => {
     favorites = JSON.parse(localStorage.getItem('favorites'));
+    console.log("favorites")
     if (favorites != null && favorites.some(favorite => favorite['id'] === item.id)) {
       setClick(true);
     }
-    if (favorites.rows.length == 0){
-      console.log("no favs")
-    }
+  
   });
 
   function setFavorite() {
@@ -67,6 +66,7 @@ export default class FavoritesScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        {(favorites != "") ?
           <FlatList
             style={{ flex: 1 }}
             data={favorites}
@@ -74,6 +74,19 @@ export default class FavoritesScreen extends React.Component {
             numColumns={1}
             keyExtractor={item => item.id}
           />
+          :
+          <View style={{ paddingTop: '50%' }}>
+            <View style={styles.testEmpty}>
+              <View style={styles.row}>
+                <Text style={{ fontWeight: "bold", fontSize: 17 }}>Aucun favoris pour le moment..</Text>
+              </View>
+              <Image
+                source={{ uri: 'https://media2.giphy.com/media/Y4z9olnoVl5QI/giphy.gif' }}
+                style={{ width: 275, height: 275, borderRadius: 5, resizeMode: "cover", margin: "10px" }}
+              />
+            </View>
+          </View>
+        }
       </View>
     )
   }
