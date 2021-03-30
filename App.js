@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Upload from './src/screens/UploadScreen'
@@ -11,6 +11,9 @@ import Favorites from './src/screens/FavoritesScreen';
 const Tab = createMaterialBottomTabNavigator();
 
 function MyTabs() {
+
+
+
   return (
     <Tab.Navigator
       initialRouteName="Home"

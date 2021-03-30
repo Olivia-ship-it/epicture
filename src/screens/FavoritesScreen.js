@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Dimensions, Text, View, FlatList, Image } from 'react-native';
+import { RefreshControl, StyleSheet, Dimensions, Text, View, FlatList, Image } from 'react-native';
 import imgur from '../api/imgur';
 import Heart from "react-animated-heart";
 
@@ -7,6 +7,11 @@ import Heart from "react-animated-heart";
 // import favorites from '../constants/FavoritesImages';
 const { width } = Dimensions.get('screen');
 var favorites = JSON.parse(localStorage.getItem('favorites'));
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
 
 function Item({ item }) {
 
@@ -55,22 +60,32 @@ function Item({ item }) {
     );
 }
 
-export default class FavoritesScreen extends React.Component {
+export default function FavoritesScreen() {
 
+    const [refreshing, setRefreshing] = React.useState(false);
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <FlatList
-                    style={{ flex: 1 }}
-                    data={favorites}
-                    renderItem={({ item }) => <Item item={item} />}
-                    numColumns={1}
-                    keyExtractor={item => item.id}
-                />
-            </View>
-        );
-    }
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      wait(2000).then(() => setRefreshing(false));
+    }, []);
+
+    return (
+        <View style={styles.container}>
+            <FlatList
+                style={{ flex: 1 }}
+                data={favorites}
+                renderItem={({ item }) => <Item item={item} />}
+                numColumns={1}
+                keyExtractor={item => item.id}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
