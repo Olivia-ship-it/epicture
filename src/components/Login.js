@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, ResponseType, useAuthRequest } from 'expo-auth-session';
-import { Button } from 'react-native';
+import { Button, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import {useState, useEffect} from "react";
 import axios from "axios";
 
-const Login = () => {
+const Login = ({ setShouldLogin, setUserName }) => {
 
     // Endpoint
     const discovery = {
@@ -36,21 +36,48 @@ const Login = () => {
                 method:'get',
                 url:'https://api.spotify.com/v1/me',
                 headers:{
-                    Authorization:'Bearer BQAWoHxu-9CUWBKdj8dVv3anQQsVHWzTVeP0fmmrXgkJLGGA0Ui8r-DuWeFim8HZe6729QlL6PxOfiQqLVXZKXMA9XbbW_ktSyYgYRhoxdfJ0qlFQUbcncO3z3--JvomcyJTi3kQj_pUP5LQxtpc7Mnxk2N6PeSuiaw-fTgwVwrvOPRMOrA'
+                    Authorization:'Bearer ' + response.params.access_token
                 }
-            }).then(console.log)
+            }).then((resp) => {
+                setShouldLogin(false);
+                setUserName(resp.data.display_name);
+            })
         }
     }, [response]);
 
     return (
-        <Button
+        <View style={styles.buttonContainer}>
+            <TouchableOpacity
             disabled={!request}
-            title="Login"
             onPress={() => {
                 promptAsync();
             }}
-        />
+            style={styles.button}>
+            <Text style={styles.buttonText}> {'Login with Spotify'.toUpperCase()}</Text>
+            </TouchableOpacity>    
+        </View> 
     );
 };
+
+const styles = StyleSheet.create({
+    screenContainer: {
+      flex: 1,
+      justifyContent: "center",
+      padding: 40,
+    },
+    button: {
+      backgroundColor: "#0DA66F",
+      padding: 3,
+      borderRadius: 10
+    },
+    buttonText: {
+        color: "white",
+        textAlign: 'center', 
+        fontWeight: 'bold',
+        fontSize: 14,
+        marginTop: 0,
+        padding: 8,
+    }
+  });
 
 export default Login;

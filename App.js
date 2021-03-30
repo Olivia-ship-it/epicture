@@ -12,7 +12,23 @@ const Tab = createMaterialBottomTabNavigator();
 
 function MyTabs() {
 
+    useEffect(() => {
+      if(!localStorage.getItem('favorites')){
+          localStorage.setItem('favorites', JSON.stringify([]))
+          console.log('creating favs')
+      }else{
+          console.log('favs already exist')
+      }
+  },[])
 
+  useEffect(() => {
+      if(!localStorage.getItem('uploadedImages')){
+          localStorage.setItem('uploadedImages', JSON.stringify([]))
+          console.log('creating uploadedImages')
+      }else{
+          console.log('uploadedImages already exist')
+      }
+  },[])
 
   return (
     <Tab.Navigator

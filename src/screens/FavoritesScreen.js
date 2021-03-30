@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
   testEmpty: {
     margin: 5,
     padding: 5,
+    marginTop: -80,
     backgroundColor: "white",
     alignItems: 'center',
     justifyContent: 'center',
