@@ -59,7 +59,7 @@ export default class FavoritesScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.item ?
+        {(this.item != null) ?
           <FlatList
             style={{ flex: 1 }}
             data={favorites}
