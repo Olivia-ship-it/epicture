@@ -1,77 +1,56 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { makeRedirectUri, ResponseType, useAuthRequest } from 'expo-auth-session';
-import * as AuthSession from "expo-auth-session";
-
-
+import { Button } from 'react-native';
+import {useState, useEffect} from "react";
+import axios from "axios";
 
 const Login = () => {
 
-  WebBrowser.maybeCompleteAuthSession();
+    // Endpoint
+    const discovery = {
+        authorizationEndpoint: 'https://accounts.spotify.com/authorize',
+        tokenEndpoint: 'https://accounts.spotify.com/api/token',
+    };
 
-  const discovery = {
-      authorizationEndpoint: 'https://api.imgur.com/oauth2/authorize',
-      tokenEndpoint: 'https://api.imgur.com/oauth2/token',
-  };
-
-  const [request, response, promptAsync] = useAuthRequest(
-      {
-          responseType: ResponseType.Token,
-          clientId: '056df242059635c',
-          redirectUri: makeRedirectUri(),
-          scopes: [],
-      },
-      discovery
-  );
-
-    const login = async () => {
-        let results = await AuthSession.startAsync({
-            authUrl: "https://api.imgur.com/oauth2/authorize?client_id=056df242059635c&response_type=token",
-            returnUrl: "http://localhost:19006/"
-        })
-        console.log(results);
-    }
+    const [request, response, promptAsync] = useAuthRequest(
+        {
+            responseType: ResponseType.Token,
+            clientId: 'b0478fcba6974106b0b44571759a10fc',
+            scopes: ['user-read-email', 'playlist-modify-public'],
+            // In order to follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
+            // this must be set to false
+            usePKCE: false,
+            // For usage in managed apps using the proxy
+            redirectUri: makeRedirectUri({
+            }),
+        },
+        discovery
+    );
 
     React.useEffect(() => {
         if (response?.type === 'success') {
             const { access_token } = response.params;
+            console.log(response)
+            axios({
+                method:'get',
+                url:'https://api.spotify.com/v1/me',
+                headers:{
+                    Authorization:'Bearer BQAWoHxu-9CUWBKdj8dVv3anQQsVHWzTVeP0fmmrXgkJLGGA0Ui8r-DuWeFim8HZe6729QlL6PxOfiQqLVXZKXMA9XbbW_ktSyYgYRhoxdfJ0qlFQUbcncO3z3--JvomcyJTi3kQj_pUP5LQxtpc7Mnxk2N6PeSuiaw-fTgwVwrvOPRMOrA'
+                }
+            }).then(console.log)
         }
     }, [response]);
-  
-  return (
-    <View style={styles.buttonContainer}>
-    <TouchableOpacity
-      disabled={!request}
-      onPress={() => {
-          login();
-      }}
-      style={styles.button}>
-      <Text style={styles.buttonText}> {'Authenticate with Imgur'.toUpperCase()}</Text>
-    </TouchableOpacity>    
-    </View>  
-  );
-};
 
-const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 40,
-  },
-  button: {
-    backgroundColor: "#0DA66F",
-    padding: 8,
-    borderRadius: 10
-  },
-  buttonText: {
-      color: "white",
-      textAlign: 'center', 
-      fontWeight: 'bold',
-      fontSize: 14,
-      marginTop: 0,
-      padding: 8,
-  }
-});
+    return (
+        <Button
+            disabled={!request}
+            title="Login"
+            onPress={() => {
+                promptAsync();
+            }}
+        />
+    );
+};
 
 export default Login;
